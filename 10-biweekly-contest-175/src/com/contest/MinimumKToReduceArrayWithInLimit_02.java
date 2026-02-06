@@ -36,7 +36,26 @@ public class MinimumKToReduceArrayWithInLimit_02 {
     }
 
     static int minimumK(int[] nums) {
-        return 1;
-        // Arumai da aathaa
+        int start = 1, e = 100000, ans = 0;
+        while (start <= e) {
+            int m = start + (e - start) / 2;
+
+            if (nonPositive(nums, m)) {
+                ans = m;
+                e = m - 1;
+            } else {
+                start = m + 1;
+            }
+        }
+        return ans;
+    }
+
+    static boolean nonPositive(int[] nums, int k) {
+        int count = 0;
+        long limit = (long) k * k;
+        for (int num : nums) {
+            count += (num + k - 1) / k;
+        }
+        return count <= limit;
     }
 }
