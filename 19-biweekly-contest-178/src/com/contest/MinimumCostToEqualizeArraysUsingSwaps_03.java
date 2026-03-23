@@ -1,0 +1,71 @@
+/*
+You are given two integer arrays nums1 and nums2 of size n.
+
+You can perform the following two operations any number of times on these two arrays:
+
+Swap within the same array: Choose two indices i and j. Then, choose either to swap nums1[i] and nums1[j], or nums2[i] and nums2[j]. This operation is free of charge.
+Swap between two arrays: Choose an index i. Then, swap nums1[i] and nums2[i]. This operation incurs a cost of 1.
+Return an integer denoting the minimum cost to make nums1 and nums2 identical. If this is not possible, return -1.
+
+Example 1:
+Input: nums1 = [10,20], nums2 = [20,10]
+Output: 0
+Explanation:
+Swap nums2[0] = 20 and nums2[1] = 10.
+nums2 becomes [10, 20].
+This operation is free of charge.
+nums1 and nums2 are now identical. The cost is 0.
+
+Example 2:
+Input: nums1 = [10,10], nums2 = [20,20]
+Output: 1
+Explanation:
+Swap nums1[0] = 10 and nums2[0] = 20.
+nums1 becomes [20, 10].
+nums2 becomes [10, 20].
+This operation costs 1.
+Swap nums2[0] = 10 and nums2[1] = 20.
+nums2 becomes [20, 10].
+This operation is free of charge.
+nums1 and nums2 are now identical. The cost is 1.
+
+Example 3:
+Input: nums1 = [10,20], nums2 = [30,40]
+Output: -1
+Explanation:
+It is impossible to make the two arrays identical. Therefore, the answer is -1.
+
+Constraints:
+2 <= n == nums1.length == nums2.length <= 8 * 104
+1 <= nums1[i], nums2[i] <= 8 * 104
+ */
+
+package com.contest;
+
+import java.util.HashMap;
+
+public class MinimumCostToEqualizeArraysUsingSwaps_03 {
+    public static void main(String[] args) {
+        int[] nums1 = {10, 20}, nums2 = {30, 40};
+        System.out.println(minCost(nums1, nums2));
+    }
+
+    static int minCost(int[] nums1, int[] nums2) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int num : nums1) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        for (int num : nums2) {
+            map.put(num, map.getOrDefault(num, 0) - 1);
+        }
+
+        int cost = 0;
+        for (int val : map.values()) {
+            if (val % 2 != 0) {
+                return -1;
+            }
+            cost += Math.abs(val);
+        }
+        return cost / 4;
+    }
+}
